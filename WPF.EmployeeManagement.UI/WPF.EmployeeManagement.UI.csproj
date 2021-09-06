@@ -6,4 +6,17 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Autofac" Version="6.2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WPF.EmployeeManagement.DataAccess\WPF.EmployeeManagement.DataAccess.csproj" />
+    <ProjectReference Include="..\WPF.EmployeeManagement.Model\WPF.EmployeeManagement.Model.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Event\" />
+  </ItemGroup>
+
 </Project>

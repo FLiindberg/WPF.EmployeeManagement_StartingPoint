@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPF.EmployeeManagement.UI.Data;
 using WPF.EmployeeManagement.UI.ViewModel;
 
 namespace WPF.EmployeeManagement.UI
@@ -22,22 +23,25 @@ namespace WPF.EmployeeManagement.UI
     public partial class MainWindow : Window
     
     {
-        private readonly MainViewModel _viewModel;
+        private readonly MainViewModel _mainViewModel;
 
         public MainWindow(MainViewModel viewModel)
         {
             InitializeComponent();
-            _viewModel = viewModel;
+            _mainViewModel = viewModel;
             //Assings a ViewModel instance to the DataContext of the MainWindow
-            DataContext = _viewModel;
+            DataContext = _mainViewModel;
 
             Loaded += MainWindow_Loaded;
         }
 
-        private void MainWindow_Loaded(object sender, RoutedEventArgs e)
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            _viewModel.Load();
+            await _mainViewModel.Load();
         }
+
+
+
     }
 }
 

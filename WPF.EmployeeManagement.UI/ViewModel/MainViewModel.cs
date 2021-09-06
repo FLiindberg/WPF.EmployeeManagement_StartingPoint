@@ -10,54 +10,66 @@ using WPF.EmployeeManagement.UI.Model;
 
 namespace WPF.EmployeeManagement.UI.ViewModel
 {
-    public class MainViewModel : INotifyPropertyChanged
+    public class MainViewModel
     {
-        public ObservableCollection<Employee> Employees { get; private set; }
-
-        //Private Fields
-        private readonly IEmployeeDataService _employeeDataService;
-        private Employee _selectedEmployee;
-
-        //Event
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        //Private Fields
-
-        public MainViewModel(IEmployeeDataService employeeDataService)
+        public MainViewModel(INavigationViewModel navigationViewModel, 
+            IEmployeeDetailViewModel employeeDetailViewModel)
         {
-            Employees = new ObservableCollection<Employee>();
-            _employeeDataService = employeeDataService;
+            NavigationViewModel = navigationViewModel;
+            EmployeeDetailViewModel = employeeDetailViewModel;
         }
 
-        public void Load()
+        public async Task Load()
         {
-            var employees = _employeeDataService.GetEmployees();
-            Employees.Clear();
-            foreach (var employee in employees)
-            {
-                Employees.Add(employee);
-            }
+            await NavigationViewModel.LoadEmployees();
         }
 
-        //Member Name of the "Caller" is SelectedFriend
-        public Employee SelectedEmployee
-        {
-            get { return _selectedEmployee; }
-            //When the _selectedFriend Property is set; 
-            //we need to notify the data binding that 
-            //it has changed, IMP! we need to raise a 
-            //propertyChanged event in the "setter"
-            set
-            {
-                _selectedEmployee = value;
-                //This method exists in the ViewModelBase class
-                WhenPropertyChanges(nameof(SelectedEmployee));
-            }
-        }
+        public INavigationViewModel NavigationViewModel { get; }
+        public IEmployeeDetailViewModel EmployeeDetailViewModel { get; }
 
-        private void WhenPropertyChanges(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+
     }
 }
+
+
+//public ObservableCollection<Employee> Employees { get; private set; }
+
+//Private Fields
+//private readonly IEmployeeDataService _employeeDataService;
+//private Employee _selectedEmployee;
+
+//Event
+//public event PropertyChangedEventHandler PropertyChanged;
+
+//Private Fields
+
+//public async Task Load()
+//{
+//    var employees = await _employeeDataService.GetEmployees();
+//    Employees.Clear();
+//    foreach (var employee in employees)
+//    {
+//        Employees.Add(employee);
+//    }
+//}
+
+//Member Name of the "Caller" is SelectedFriend
+//public Employee SelectedEmployee
+//{
+//    get { return _selectedEmployee; }
+//    //When the _selectedFriend Property is set; 
+//    //we need to notify the data binding that 
+//    //it has changed, IMP! we need to raise a 
+//    //propertyChanged event in the "setter"
+//    set
+//    {
+//        _selectedEmployee = value;
+//        //This method exists in the ViewModelBase class
+//        WhenPropertyChanges(nameof(SelectedEmployee));
+//    }
+//}
+
+//private void WhenPropertyChanges(string propertyName)
+//{
+//    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+//}

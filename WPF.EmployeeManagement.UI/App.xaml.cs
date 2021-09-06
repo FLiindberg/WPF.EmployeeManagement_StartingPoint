@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Autofac;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -17,10 +18,19 @@ namespace WPF.EmployeeManagement.UI
     {
         private void OnStartUp(object sender, StartupEventArgs e)
         {
-            new MainWindow(
-                new MainViewModel(
-                    new EmployeeDataService()))
-                .Show();
+            var autoDacContainerClassInstance = new AutoFacContainer();
+            var iocContainer = autoDacContainerClassInstance.Container();
+            var mainWindow = iocContainer.Resolve<MainWindow>();
+            mainWindow.Show();
+
+
+
+
+            //new MainWindow(
+            //    new MainViewModel( 
+            //        new EmployeeDataService())
+            //    )
+            //    .Show();
         }
     }
 }

@@ -9,6 +9,7 @@ namespace WPF.EmployeeManagement.UI.Data
 {
     public interface IEmployeeDataService
     {
-        IEnumerable<Employee> GetEmployees();
+        Task<List<Employee>> GetEmployees();
+        Task<Employee> GetEmployeeById(int employeeId);
     }
 }
