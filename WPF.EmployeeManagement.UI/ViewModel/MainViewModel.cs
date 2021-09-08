@@ -21,6 +21,7 @@ namespace WPF.EmployeeManagement.UI.ViewModel
 
         public async Task Load()
         {
+            //Loads the employee entities into the NavigationView
             await NavigationViewModel.LoadEmployees();
         }
 

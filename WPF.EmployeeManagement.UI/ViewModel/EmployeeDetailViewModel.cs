@@ -1,32 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
+﻿using Prism.Commands;
+using Prism.Events;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using WPF.EmployeeManagement.UI.Data;
+using WPF.EmployeeManagement.UI.Event;
 using WPF.EmployeeManagement.UI.Model;
 
 namespace WPF.EmployeeManagement.UI.ViewModel
 {
-    public class EmployeeDetailViewModel : INotifyPropertyChanged, IEmployeeDetailViewModel
+    public class EmployeeDetailViewModel : ViewModelPropertyChangedNotifier, IEmployeeDetailViewModel
     {
         private readonly IEmployeeDataService _employeeDataService;
+        private readonly IEventAggregator _eventAggregator;
 
-        public EmployeeDetailViewModel(IEmployeeDataService employeeDataService)
+        public EmployeeDetailViewModel(IEmployeeDataService employeeDataService, IEventAggregator eventAggregator)
         {
             _employeeDataService = employeeDataService;
+            _eventAggregator = eventAggregator;
+
+            _eventAggregator.GetEvent<OpenObjectDetailsEvent>().Subscribe(HandleEmployeeSelectedEvent);
+            SaveCommand = new DelegateCommand(OnSaveExecute, OnSaveCanExecute);
+        }
+
+        private bool OnSaveCanExecute()
+        {
+            return true;
+        }
+
+        private async void OnSaveExecute()
+        {
+            await _employeeDataService.SaveAsync(Employee);
+            // Notify NavigationViewModel of changes in DB
+            _eventAggregator.GetEvent<AfterSavedEvent>().Publish(
+                new InfoAboutChangedEntityArgs
+                {
+                    Id = Employee.Id,
+                    Firstname = Employee.Firstname
+                });
+        }
+
+        private async void HandleEmployeeSelectedEvent(int employeeId)
+        {
+            Debug.WriteLine("SUBSCRIBER " + employeeId);
+            await LoadEmployeeById(employeeId);
         }
 
         public async Task LoadEmployeeById(int employeeId)
         {
             Employee = await _employeeDataService.GetEmployeeById(employeeId);
 
+
         }
 
         private Employee _employee;
-
-        public event PropertyChangedEventHandler PropertyChanged;
 
         public Employee Employee
         {
@@ -34,16 +61,10 @@ namespace WPF.EmployeeManagement.UI.ViewModel
             set
             {
                 _employee = value;
-                WhenPropertyChanged(nameof(Employee));
+                OnPropertyChanged(nameof(Employee));
             }
         }
 
-        private void WhenPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
-
-
+        public ICommand SaveCommand { get; }
     }
 }

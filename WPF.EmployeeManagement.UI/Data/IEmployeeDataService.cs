@@ -11,5 +11,6 @@ namespace WPF.EmployeeManagement.UI.Data
     {
         Task<List<Employee>> GetEmployees();
         Task<Employee> GetEmployeeById(int employeeId);
+        Task SaveAsync(Employee employee);
     }
 }
