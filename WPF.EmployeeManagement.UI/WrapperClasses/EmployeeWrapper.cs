@@ -29,10 +29,44 @@ namespace WPF.EmployeeManagement.UI.WrapperClasses
             }
         }
 
-        public string Lastname { get; set; }
-        public string Email { get; set; }
-        public Department Department { get; set; }
+        private string _lastname;
 
+        public string Lastname
+        {
+            get { return _lastname; }
+            set { _lastname = value;
+                OnPropertyChanged(nameof(Lastname));
+            }
+        }
 
+        private string _email;
+
+        public string Email
+        {
+            get { return _email; }
+            set { _email = value;
+                OnPropertyChanged(nameof(Email));
+            }
+        }
+
+        private Department _department;
+
+        public Department Department
+        {
+            get { return _department; }
+            set { _department = value;
+                OnPropertyChanged(nameof(Department));
+            }
+        }
+
+        private int _phonenumber;
+
+        public int Phonenumber
+        {
+            get { return _phonenumber; }
+            set { _phonenumber = value;
+                OnPropertyChanged(nameof(Phonenumber));
+            }
+        }
     }
 }

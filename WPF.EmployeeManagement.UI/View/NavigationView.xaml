@@ -6,9 +6,16 @@
              xmlns:local="clr-namespace:WPF.EmployeeManagement.UI.View"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-
+    <Grid Grid.Column="1">
+        <WrapPanel>
         <ListView ItemsSource="{Binding Employees}"
                   SelectedItem="{Binding SelectedEmployee, Mode=TwoWay}"
                   DisplayMemberPath="DisplayMember"/>
-
+        </WrapPanel>
+        <WrapPanel>
+            <ListView ItemsSource="{Binding Meetings}"
+                  SelectedItem="{Binding SelectedMeeting, Mode=TwoWay}"
+                  DisplayMemberPath="DisplayMember"/>
+        </WrapPanel>
+    </Grid>
 </UserControl>
