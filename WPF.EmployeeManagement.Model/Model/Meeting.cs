@@ -11,14 +11,11 @@ namespace WPF.EmployeeManagement.Model.Model
 {
     public class Meeting
     {
-        [Column("Id")]
         public int MeetingID { get; set; }
         [Required]
         public string Title { get; set; }
-
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-
         //Collection
         public virtual ICollection<Employee> Employees { get; set; }
     }

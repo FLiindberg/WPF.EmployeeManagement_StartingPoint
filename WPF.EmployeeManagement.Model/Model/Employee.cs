@@ -7,7 +7,6 @@ namespace WPF.EmployeeManagement.UI.Model
 {
     public class Employee
     {
-
         public int Id { get; set; }
         [Required]
         public string Firstname { get; set; }
@@ -16,7 +15,6 @@ namespace WPF.EmployeeManagement.UI.Model
         public string Email { get; set; }
         public Department Department { get; set; }
         public int Phonenumber { get; set; }
-
         //Collection
         public virtual ICollection<Meeting> Meetings { get; set; }
     }
